@@ -21,7 +21,7 @@ training:
   validation_load_images_into_memory: True
   pos_iou_threshold: 0.5
   batch_size: 16
-  epoch: 5
-  steps_per_epoch: 1000
+  epochs: 5
+  steps_per_epochs: 1000
   weight_save_path: './assets/weights/'
-  csv_log_save_path:
+  csv_log_save_path: './assets/'
