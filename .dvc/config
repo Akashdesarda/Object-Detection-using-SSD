@@ -1,0 +1,7 @@
+['remote "myremote"']
+url = /home/akash/dvc_remote
+[core]
+remote = myremote
+[cache]
+type = hardlink
+protected = true

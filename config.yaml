@@ -1,0 +1,27 @@
+mode: 'training'
+limit_gpu: True
+
+training:
+  img_height: 300
+  img_width: 300
+  img_channels: 3
+  n_classes: 20
+  l2_regularization: 0.0005
+  learning_rate: 0.001
+  train_img_dir: './dataset/training/JPEGImages/'
+  val_img_dir: './dataset/test/JPEGImages/'
+  train_annotation_dir: './dataset/training/Annotations/'
+  val_annotation_dir: './dataset/test/Annotations/'
+  train_image_set_filename: './dataset/training/ImageSets/Main/trainval.txt'
+  classes: ['background','aeroplane', 'bicycle', 'bird', 'boat','bottle', 
+            'bus', 'car', 'cat','chair', 'cow', 'diningtable', 'dog',
+            'horse', 'motorbike', 'person', 'pottedplant','sheep', 
+            'sofa', 'train', 'tvmonitor']
+  train_load_images_into_memory: True
+  validation_load_images_into_memory: True
+  pos_iou_threshold: 0.5
+  batch_size: 16
+  epoch: 5
+  steps_per_epoch: 1000
+  weight_save_path: './assets/weights/'
+  csv_log_save_path:
