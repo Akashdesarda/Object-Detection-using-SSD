@@ -53,23 +53,6 @@ def limit_gpu(config: Dict):
                 # Memory growth must be set before GPUs have been initialized
                 print(e)
 
-# def hype_prep(config: Dict):
-#     """Set all general non-training parameter
-    
-#     Parameters
-#     ----------
-#     config : Dict
-#         Config yaml/json containing all parameter
-    
-#     Returns
-#     -------
-#         img_height, img_width, img_channels, mean_color, swap_channels, n_classes,
-#         scales, aspect_ratios, two_boxes_for_ar1, steps, offsets, clip_boxes,
-#         variances, normalize_coords
-#     """
-# img_height = config['training']['img_height'] # Height  input images
-# img_width = config['training']['img_width'] # Width  input images
-# img_channels = config['training']['img_channels'] # Number of color channels 
 mean_color = [123, 117, 104] # The per-channel mean of the images in the dataset. Do not change this value if you're using any of the pre-trained weights.
 swap_channels = [2, 1, 0] # The color channel order in the original SSD is BGR, so we'll have the model reverse the color channel order of the input images.
 scales_pascal = [0.1, 0.2, 0.37, 0.54, 0.71, 0.88, 1.05] # The anchor box scaling factors used in the original SSD300 for the Pascal VOC datasets
@@ -178,6 +161,7 @@ def callbacks(config: Dict):
     terminate_on_nan = TerminateOnNaN()
 
     callbacks_list = [model_checkpoint, csv_logger, lr_schedular, terminate_on_nan]
+    return callbacks_list
     
 def ssd_model(config: Dict, train_dataset, val_dataset, callbacks_list):
     """Training SSD model
