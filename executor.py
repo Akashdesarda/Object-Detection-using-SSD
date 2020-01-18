@@ -52,10 +52,5 @@ def executor(locals_dict):
         callbacks_list = train.callbacks(current_config)
         train.ssd_model(current_config, train_dataset, val_dataset, callbacks_list)
     end = timer()
-    print(f"['INFO]...Time taken by {current_config['mode']} is {(end - start)/60:.2f} min(s)")
-
-epochs = 1
-limit_gpu = True
-executor(locals())
-
+    print(f"[INFO]...Time taken by {current_config['mode']} is {(end - start)/60:.2f} min(s)")
 
