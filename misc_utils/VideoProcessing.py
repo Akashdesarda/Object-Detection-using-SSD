@@ -32,8 +32,9 @@ class VideoProcessing:
         fps = VideoProcessing.get_fps(self.video)
         folder = self.video.split('.')[0]
         VideoProcessing.existsFolder(f"{export_path}/{folder}")
-        print(f"[INFO]... Generating Frames from given video at {export_path}/{folder}")
-        os.system(f"ffmpeg -i ./{self.video} -vf fps={fps} {export_path}{folder}/{folder}_%08d.jpg")
+        print(f"[INFO]... Generating Frames from given video {self.video} at {export_path}/{folder}")
+        os.system(f"ffmpeg -i ./{self.video} -vf fps={fps} {export_path}/{folder}/{folder}_%08d.jpg")
+        print(f"[INFO]... Video to frames Job completed")
         
     def generate_video(self, import_path: str, export_path: str="./assets"):
         """Generate Video from frames
@@ -55,6 +56,6 @@ class VideoProcessing:
         folder = self.video.split('.')[0]
         if len(os.listdir(f"{import_path}/{folder}")) == 0:
             raise ValueError("[ERROR]...Given directory is empty")
-        print("[INFO]...Generating Video from frames in {import_path}/{folder}")
+        print(f"[INFO]...Generating Video from frames in {import_path}/{folder}")
         VideoProcessing.existsFolder(f"./{export_path}/{folder}_result")
         os.system(f"ffmpeg -framerate {fps} -i {import_path}/{folder}/{folder}_%08d.jpg -c:v libx264 -profile:v high -crf 20 -pix_fmt yuv420p ./{export_path}/{folder}_result/output.mp4")
