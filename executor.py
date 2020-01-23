@@ -1,5 +1,6 @@
 import yaml
 import train
+import inference
 
 from timeit import default_timer as timer
 from datetime import datetime
@@ -51,6 +52,8 @@ def executor(locals_dict):
         train_dataset, val_dataset = train.data_generator_func(current_config)
         callbacks_list = train.callbacks(current_config)
         train.ssd_model(current_config, train_dataset, val_dataset, callbacks_list)
+    if current_config['mode'] =='inference':
+        print("[INFO]...Starting Inference Job")
+        inference.detect_from_video(current_config)
     end = timer()
     print(f"[INFO]...Time taken by {current_config['mode']} is {(end - start)/60:.2f} min(s)")
-

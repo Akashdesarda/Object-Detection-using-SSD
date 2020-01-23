@@ -10,6 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import cv2
 import numpy as np
+from tqdm import tqdm
 import tensorflow as tf
 from keras import backend as K
 from keras.preprocessing import image
@@ -60,14 +61,15 @@ def detect_from_video(config: Dict):
     config : Dict
         Config yaml/json containing all parameter
     """
-    vp = VideoProcessing(video=config[])
-    vp.generate_frames(export_path=config[])
-    if config[] == config[]:
+    video = config['inference']['video_input']['video_input_path']
+    vp = VideoProcessing(video=video)
+    vp.generate_frames(export_path=config['inference']['video_input']['video_to_frames_export_path'])
+    if config['inference']['video_input']['video_to_frames_export_path'] == config['inference']['predicted_frames_export_path']:
         print("[Warning]... You have given Video to frame path same as prediction output path /nPredicted output will overwrite video to frame")
-    img_height = config[]
-    img_width = config[]
+    img_height = config['inference']['img_height']
+    img_width = config['inference']['img_width']
     model = ssd_300(image_size=(img_height, img_width, 3),
-                n_classes=20,
+                n_classes=config['inference']['n_classes'],
                 mode='inference',
                 l2_regularization=0.0005,
                 scales=[0.1, 0.2, 0.37, 0.54, 0.71, 0.88, 1.05], # The scales for MS COCO are [0.07, 0.15, 0.33, 0.51, 0.69, 0.87, 1.05]
@@ -91,21 +93,22 @@ def detect_from_video(config: Dict):
                 nms_max_output_size=400)
 
     # Load the trained weights into the model.
-    weights_path = config[]
+    weights_path = config['inference']['weights_path']
 
     model.load_weights(weights_path, by_name=True)
     
     # Working with image
-    all_images = glob.glob(config[])
+    all_images = glob.glob(f"{config['inference']['video_input']['video_to_frames_export_path']}/*/*")
     
     # Setting Up Prediction Threshold
-    confidence_threshold = config[]
+    confidence_threshold = config['inference']['confidence_threshold']
     
     # Setting Up Classes (Note Should be in same order as in training)
-    classes = config[]
+    classes = config['inference']['classes']
     
+    vp.existsFolder(f"{config['inference']['predicted_frames_export_path']}/{video.split('.')[0]}")
     # Working with image
-    for current_img in all_images:
+    for current_img in tqdm(all_images):
         current_img_name = current_img.split('/')[-1]
         orig_image = cv2.imread(current_img)
         input_images = [] # Store resized versions of the images here
@@ -116,9 +119,8 @@ def detect_from_video(config: Dict):
         
         # Prediction
         y_pred = model.predict(input_images)
-        
-        # confidence threshold
-        confidence_threshold = config[]
+
+        # Using threshold
         y_pred_thresh = [y_pred[k][y_pred[k,:,1] > confidence_threshold] for k in range(y_pred.shape[0])]
         
         # Drawing Boxes
@@ -131,11 +133,11 @@ def detect_from_video(config: Dict):
             label = f"{classes[int(box[0])]}: {box[1]:.2f}"
             cv2.rectangle(orig_image, (int(xmin), int(ymin)),  (int(xmax),int(ymax)), (255, 0, 0), 2)
             cv2.putText(orig_image, label, (int(xmin), int(ymin)), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
-            cv2.imwrite(f"{config[]}/{current_img_name}", orig_image)
+            cv2.imwrite(f"{config['inference']['predicted_frames_export_path']}/{video.split('.')[0]}/{current_img_name}", orig_image)
         
         # Creating video
-    vp.generate_video(import_path=config[],
-                      export_path=config[])
+    vp.generate_video(import_path=config['inference']['predicted_frames_export_path'],
+                      export_path=config['inference']['video_input']['video_output_path'])
         
         
                     
