@@ -1,8 +1,5 @@
-limit_gpu: true
-mode: training
-training:
-  batch_size: 16
-  classes:
+inference:
+  classes: &id001
   - background
   - aeroplane
   - bicycle
@@ -24,6 +21,21 @@ training:
   - sofa
   - train
   - tvmonitor
+  confidence_threshold: 0.6
+  img_height: 300
+  img_width: 300
+  n_classes: 20
+  predicted_frames_export_path: ./assets/results
+  video_input:
+    video_input_path: funny_dog.mp4
+    video_output_path: ./assets/
+    video_to_frames_export_path: ./assets/frames_data
+  weights_path: ./weights/VGG_VOC0712_SSD_300x300_iter_120000.h5
+limit_gpu: true
+mode: inference
+training:
+  batch_size: 16
+  classes: *id001
   csv_log_save_path: ./assets/
   epochs: 2
   img_channels: 3
