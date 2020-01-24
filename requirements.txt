@@ -10,3 +10,4 @@ beautifulsoup4==4.8.2
 Pillow==7.0.0
 PyYAML==5.3
 scikit_learn==0.22.1
+dvc
