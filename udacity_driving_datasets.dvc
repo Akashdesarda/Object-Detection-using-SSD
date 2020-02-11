@@ -1,0 +1,7 @@
+md5: f75d06562fa72503b64f9392a7e04c69
+outs:
+- md5: f42a08a09c5671561cde2b2a22f603d6.dir
+  path: udacity_driving_datasets
+  cache: true
+  metric: false
+  persist: false
