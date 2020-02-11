@@ -106,23 +106,35 @@ def data_generator_func(config: Dict):
 
     classes = config['training']['classes']
 
-    train_dataset.parse_xml(images_dirs=[train_img_dir],
-                            image_set_filenames=[train_image_set_filename],
-                            annotations_dirs=[train_annotation_dir],
+    if config['training']['annotation_type'] == 'xml':
+        train_dataset.parse_xml(images_dirs=[train_img_dir],
+                                image_set_filenames=[train_image_set_filename],
+                                annotations_dirs=[train_annotation_dir],
+                                classes=classes,
+                                include_classes='all',
+                                exclude_truncated=False,
+                                exclude_difficult=False,
+                                ret=False)
+
+        val_dataset.parse_xml(images_dirs=[val_img_dir],
+                            image_set_filenames=[val_image_set_filename],
+                            annotations_dirs=[val_annotation_dir],
                             classes=classes,
                             include_classes='all',
                             exclude_truncated=False,
-                            exclude_difficult=False,
+                            exclude_difficult=True,
                             ret=False)
+        
+    if config['training']['annotation_type'] == 'csv':
+        train_dataset.parse_csv(images_dir=train_img_dir,
+                                labels_filename=train_annotation_dir,
+                                input_format=['image_name', 'xmin', 'xmax', 'ymin', 'ymax', 'class_id'],
+                                include_classes='all')
 
-    val_dataset.parse_xml(images_dirs=[val_img_dir],
-                        image_set_filenames=[val_image_set_filename],
-                        annotations_dirs=[val_annotation_dir],
-                        classes=classes,
-                        include_classes='all',
-                        exclude_truncated=False,
-                        exclude_difficult=True,
-                        ret=False)
+        val_dataset.parse_csv(images_dir=val_img_dir,
+                              labels_filename=val_annotation_dir,
+                              input_format=['image_name', 'xmin', 'xmax', 'ymin', 'ymax', 'class_id'],
+                              include_classes='all')
     end_data = timer()
     print(f"[INFO]...Time taken by Data loading/transformation Job is {(end_data - start_data)/60:.2f} min(s)")
     return train_dataset, val_dataset
