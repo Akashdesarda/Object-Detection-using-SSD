@@ -23,7 +23,7 @@ training:
   batch_size: 16
   classes: *id001
   csv_log_save_path: ./assets
-  epochs: 2
+  epochs: 50
   img_channels: 3
   img_height: 300
   img_width: 300
