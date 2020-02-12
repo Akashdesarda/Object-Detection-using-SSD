@@ -32,6 +32,8 @@ from data_generator.object_detection_2d_photometric_ops import ConvertTo3Channel
 from data_generator.data_augmentation_chain_original_ssd import SSDDataAugmentation
 from data_generator.object_detection_2d_misc_utils import apply_inverse_transforms
 
+from misc_utils.mlflow import MlflowCallback
+
 def limit_gpu(config: Dict):
     """Used to limit GPU usage. Based on Tensorflow's Logical limiting memory graph
     
@@ -171,8 +173,10 @@ def callbacks(config: Dict):
     lr_schedular = LearningRateScheduler(lr_schedule, verbose=1)
 
     terminate_on_nan = TerminateOnNaN()
+    
+    mlflow_callback = MlflowCallback()
 
-    callbacks_list = [model_checkpoint, csv_logger, lr_schedular, terminate_on_nan]
+    callbacks_list = [model_checkpoint, csv_logger, lr_schedular, terminate_on_nan, mlflow_callback]
     return callbacks_list
     
 def ssd_model(config: Dict, train_dataset, val_dataset, callbacks_list):
