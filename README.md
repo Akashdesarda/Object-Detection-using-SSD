@@ -4,9 +4,9 @@
 
 This is a Keras port of the SSD model architecture introduced by Wei Liu et al. in the paper [SSD: Single Shot MultiBox Detector](https://arxiv.org/abs/1512.02325) and originally implemented by Pierluigi Ferrari & can be found [here](https://github.com/pierluigiferrari/ssd_keras). This implementation is focussed towards two important points (which were missing in originall implementation):
 
-- Training and inference can be done on mediocre discreate local system GPUs (like I have used Nvidia gtx 1660 on my local setup).
+1.Training and inference can be done on mediocre discreate local system GPUs (like I have used Nvidia gtx 1660 on my local setup).
 
--  A universal note book to perform all task:- training, training on custom dataset, inference on video or images, etc.
+2.A universal note book to perform all task:- training, training on custom dataset, inference on video or images, etc.
 
 ## APIS and Usage
 
