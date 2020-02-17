@@ -12,12 +12,12 @@ inference:
   n_classes: 5
   predicted_frames_export_path: ./assets/results
   video_input:
-    video_input_path: funny_dog.mp4
-    video_output_path: ./assets/
-    video_to_frames_export_path: ./assets/frames_data
-  weights_path: ./weights/VGG_VOC0712_SSD_300x300_iter_120000.h5
+    video_input_path: car_dashcam.mp4
+    video_output_path: ./assets
+    video_to_frames_export_path: ./assets/frames_data_car
+  weights_path: ./assets/weights/traffic/ssd_epoch-36_loss-4.0856.hfd5
 limit_gpu: true
-mode: training
+mode: inference
 training:
   annotation_type: csv
   batch_size: 16
