@@ -8,3 +8,5 @@ __pycache__
 .ipynb_checkpoints
 .vscode/*
 /udacity_driving_datasets
+assets/frames_data_car/car_dashcam/*
+assets/results/car_dashcam/*

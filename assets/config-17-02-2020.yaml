@@ -1,0 +1,43 @@
+inference:
+  classes: &id001
+  - background
+  - car
+  - truck
+  - pedestrian
+  - bicyclist
+  - light
+  confidence_threshold: 0.6
+  img_height: 300
+  img_width: 300
+  n_classes: 5
+  predicted_frames_export_path: ./assets/results
+  video_input:
+    video_input_path: car_dashcam.mp4
+    video_output_path: ./assets
+    video_to_frames_export_path: ./assets/frames_data_car
+  weights_path: ./assets/weights/traffic/ssd_epoch-36_loss-4.0856.hfd5
+limit_gpu: true
+mode: inference
+training:
+  annotation_type: csv
+  batch_size: 16
+  classes: *id001
+  csv_log_save_path: ./assets
+  epochs: 50
+  img_channels: 3
+  img_height: 300
+  img_width: 300
+  l2_regularization: 0.0005
+  learning_rate: 0.001
+  n_classes: 5
+  pos_iou_threshold: 0.5
+  steps_per_epoch: 1000
+  train_annotation_dir: ./udacity_driving_datasets/labels_train.csv
+  train_image_set_filename: ./dataset/training/ImageSets/Main/trainval.txt
+  train_img_dir: ./udacity_driving_datasets/
+  train_load_images_into_memory: true
+  val_annotation_dir: ./udacity_driving_datasets/labels_val.csv
+  val_image_set_filename: ./dataset/test/ImageSets/Main/test.txt
+  val_img_dir: ./udacity_driving_datasets/
+  validation_load_images_into_memory: true
+  weight_save_path: ./assets/weights/traffic
