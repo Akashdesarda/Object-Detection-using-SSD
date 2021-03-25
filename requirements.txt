@@ -9,6 +9,6 @@ numpy==1.17.4
 tqdm==4.40.2
 beautifulsoup4==4.8.2
 Pillow==7.0.0
-PyYAML==5.3
+PyYAML==5.4
 scikit_learn==0.22.1
 dvc
