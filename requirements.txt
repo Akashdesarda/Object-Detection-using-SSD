@@ -1,4 +1,4 @@
-tensorflow-gpu==1.14.0
+tensorflow-gpu==2.5.1
 opencv-python==4.1.2.30
 imageio==2.6.1
 Keras==2.3.1
